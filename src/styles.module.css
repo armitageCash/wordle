@@ -1,0 +1,9 @@
+/* styles.module.css */
+.container {
+    transition: all 0.25s linear;
+}
+
+.button {
+    padding: 10px 20px;
+    cursor: pointer;
+}
