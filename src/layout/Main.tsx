@@ -1,8 +1,9 @@
 import React from "react";
 import Grid from "./Grid";
-
+import { useTheme } from "../context/theme";
 
 const Layout: React.FC = () => {
+    const { theme } = useTheme();
     const size = 5;
     const cellSize = 400 / size;
 
@@ -30,14 +31,16 @@ const Layout: React.FC = () => {
     };
 
     return (
-        <Grid>
-            <div style={{ width: 400, height: 400, border: '1px solid black' }}>
-                {Array(size).fill(null).map((_, row) => renderRow(row))}
-            </div>
-            <div className="bg-blue-500 text-white p-4">Item 1</div>
-            <div className="bg-green-500 text-white p-4">Item 2</div>
-            <div className="bg-red-500 text-white p-4">Item 3</div>
-        </Grid>
+        <div className='container' style={{ backgroundColor: theme.body }}>
+            <Grid>
+                <div style={{ width: 400, height: 400, border: '1px solid black' }}>
+                    {Array(size).fill(null).map((_, row) => renderRow(row))}
+                </div>
+                <div className="bg-blue-500 text-white p-4">Item 1</div>
+                <div className="bg-green-500 text-white p-4">Item 2</div>
+                <div className="bg-red-500 text-white p-4">Item 3</div>
+            </Grid>
+        </div>
     );
 }
 

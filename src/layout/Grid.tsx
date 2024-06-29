@@ -1,11 +1,18 @@
-import React from 'react';
+import React from "react";
 
 interface GridProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
 }
 
-const Grid: React.FC<GridProps> = ({ children }) => {
-    return <div className="grid grid-rows-3 gap-4 p-4 md:grid-rows-2 lg:grid-rows-1">{children}</div>;
+const Grid: React.FC<GridProps> = ({ children, className }) => {
+  return (
+    <div
+      className={`${className ? className : ""} grid grid grid-cols-5 gap-4`}
+    >
+      {children}
+    </div>
+  );
 };
 
 export default Grid;
