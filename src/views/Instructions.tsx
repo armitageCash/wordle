@@ -5,13 +5,15 @@ import Spacing from "../components/Spacing";
 import { Title, Parragraph, SubTitle } from "../components/Typography";
 import Column from "../layout/Column";
 import Grid from "../layout/Grid";
+import { useTheme } from "../context/theme";
 
 interface IProps {
   onPlayButton: () => void;
 }
 
 const Instructions: React.FC<IProps> = (Props: IProps) => {
-  console.log("props", Props);
+  const { theme } = useTheme();
+
   return (
     <div>
       <Title text={"Cómo jugar"} />
@@ -40,6 +42,8 @@ const Instructions: React.FC<IProps> = (Props: IProps) => {
                   key={k as number}
                   children={
                     <Box
+                      border={1}
+                      textColor={theme.text}
                       color={k === 0 ? "#6AAA64" : "transparent"}
                       label={`${v}`}
                       value={`${v}`}
@@ -59,6 +63,8 @@ const Instructions: React.FC<IProps> = (Props: IProps) => {
                   key={k as number}
                   children={
                     <Box
+                      border={1}
+                      textColor={theme.text}
                       color={k === 2 ? "#CEB02C" : "transparent"}
                       label={`${v}`}
                       value={`${v}`}
@@ -79,6 +85,8 @@ const Instructions: React.FC<IProps> = (Props: IProps) => {
                   key={k as number}
                   children={
                     <Box
+                      border={1}
+                      textColor={theme.text}
                       color={k === 4 ? "#939B9F" : "transparent"}
                       label={`${v}`}
                       value={`${v}`}

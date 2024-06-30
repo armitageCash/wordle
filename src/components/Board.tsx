@@ -1,42 +1,51 @@
 import React from "react";
+import Box from "./Box";
+import { useTheme } from "../context/theme";
 
 interface Board {
-    title: String,
-    size: Number,
+  title: string;
+  size: string;
 }
 
 const Board: React.FC<Board> = (Props: Board) => {
-    const size = 5;
-    const cellSize = 400 / size;
+  const { theme } = useTheme();
 
-    const renderCell = (row: number, col: number) => {
-        return (
-            <div
-                key={`${row}-${col}`}
-                style={{
-                    width: cellSize,
-                    height: cellSize,
-                    border: '1px solid black',
-                    display: 'inline-block',
-                    boxSizing: 'border-box',
-                }}
-            />
-        );
-    };
+  const size = 5;
+  const cellSize = 300 / size;
 
-    const renderRow = (row: number) => {
-        return (
-            <div key={row} style={{ height: cellSize }}>
-                {Array(size).fill(null).map((_, col) => renderCell(row, col))}
-            </div>
-        );
-    };
-
+  const renderCell = (row: number, col: number) => {
     return (
-        <div style={{ width: 400, height: 400, border: '1px solid black' }}>
-            {Array(size).fill(null).map((_, row) => renderRow(row))}
-        </div>
+      <div style={{ margin: 4 }}>
+        <Box
+          key={`${row}-${col}`}
+          width={cellSize}
+          height={cellSize}
+          defaultColor={theme.boxColor}
+          label=""
+          value=""
+          color="#6AAA64"
+        />
+      </div>
     );
-}
+  };
+
+  const renderRow = (row: number) => {
+    return (
+      <div key={row} style={{ display: "flex" }}>
+        {Array(size)
+          .fill(null)
+          .map((_, col) => renderCell(row, col))}
+      </div>
+    );
+  };
+
+  return (
+    <div style={{ width: "auto", display: "flex", flexDirection: "column" }}>
+      {Array(size)
+        .fill(null)
+        .map((_, row) => renderRow(row))}
+    </div>
+  );
+};
 
 export default Board;

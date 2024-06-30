@@ -26,7 +26,7 @@ const Header: React.FC<IProps> = (Props: IProps) => {
         width: `${Props.width}px`,
         height: `${Props.height ? `${Props.height}px` : "auto"}`,
       }}
-      className="border border-gray-500 dark:border-gray-300 rounded-lg p-4"
+      className="rounded-lg p-4 radius-15"
     >
       <Container
         children={

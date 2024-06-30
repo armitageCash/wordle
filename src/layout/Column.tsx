@@ -6,12 +6,9 @@ interface IProps {
 }
 
 const Column: React.FC<IProps> = (Props: IProps) => {
-  console.log("props", Props);
   return (
-    <div>
-      <div className={`${Props.className ? Props.className : ""}`}>
-        {Props.children}
-      </div>
+    <div className={`${Props.className ? Props.className : ""}`}>
+      {Props.children}
     </div>
   );
 };

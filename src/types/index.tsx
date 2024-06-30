@@ -4,6 +4,7 @@ export interface Theme {
   toggleBorder: string;
   background: string;
   backgroundContainer: string;
+  boxColor: string;
 }
 
 export interface ThemeContextType {
