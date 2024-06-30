@@ -1,16 +1,16 @@
 import React from "react";
 import { useTheme } from "../context/theme";
 import "../index.css";
-import Container from "./Container";
+import Container from "../layout/Container";
 
 interface IProps {
   title: string;
   show: boolean;
   content: React.ReactNode;
-  buttons: React.ReactNode;
+  buttons?: React.ReactNode;
 }
 
-const Modal: React.FC<IProps> = (Props: IProps) => {
+const ModalContent: React.FC<IProps> = (Props: IProps) => {
   const { theme } = useTheme();
   console.log("props", Props);
   console.log("theme", theme);
@@ -31,4 +31,4 @@ const Modal: React.FC<IProps> = (Props: IProps) => {
   );
 };
 
-export default Modal;
+export default ModalContent;

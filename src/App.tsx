@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { ThemeProvider, useTheme } from "./context/theme";
 import styles from "./styles.module.css";
-import Modal from "./components/Modal";
 import Header from "./layout/Header";
 import Instructions from "./views/Instructions";
-import Result from "./components/icons/Result";
 import Board from "./components/Board";
-import Spacing from "./components/Spacing";
+import Spacing from "./layout/Spacing";
 import Keyboard from "./components/Keyboard";
+import Result from "./views/Result";
+import ModalContent from "./components/Modal";
 
 const Content: React.FC = () => {
   const { theme } = useTheme();
@@ -19,6 +19,7 @@ const Content: React.FC = () => {
         className={styles.wrapper}
         style={{ backgroundColor: theme.body, color: theme.text }}
       >
+        <Spacing size={10} />
         <Header
           width={500}
           children={<></>}
@@ -30,30 +31,16 @@ const Content: React.FC = () => {
           }}
         />
         <Spacing size={20} />
-
         <Board size="4" title={"aa"} />
+        <Spacing size={44} />
         <Keyboard
-          width={600}
-          height={0}
+          width={640}
           onKeyPress={(value) => {
             console.log("Preset key", value);
           }}
         />
-        <Spacing size={20} />
-        {/*
-                <Modal
-          show={showResult}
-          title="Estadísticas"
-          content={<Result />}
-          buttons={
-            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              !JUGAR¡
-            </button>
-          }
-        />
-        */}
       </div>
-      {showInstructions ? (
+      {showInstructions && (
         <div className="backdrop">
           <div
             className="modal-inner"
@@ -61,7 +48,7 @@ const Content: React.FC = () => {
               backgroundColor: theme.body,
             }}
           >
-            <Modal
+            <ModalContent
               show={true}
               title="Cómo jugar"
               content={
@@ -78,7 +65,23 @@ const Content: React.FC = () => {
             />
           </div>
         </div>
-      ) : null}
+      )}
+      {showResult && (
+        <div className="backdrop">
+          <div
+            className="modal-inner"
+            style={{
+              backgroundColor: theme.body,
+            }}
+          >
+            <ModalContent
+              show={showResult}
+              title="Estadísticas"
+              content={<Result onOk={() => setShowResult(!showResult)} />}
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 };

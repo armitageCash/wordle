@@ -7,6 +7,8 @@ class Game {
     this.startTime = undefined;
   }
 
+  getScore() {}
+
   start() {
     this.startTime = new Date();
   }

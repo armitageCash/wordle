@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
-import Container from "./Container";
+import Container from "../layout/Container";
 import { useTheme } from "../context/theme";
 import Box from "./Box";
-import Spacing from "./Spacing";
+import Spacing from "../layout/Spacing";
 
 interface IProps {
   onKeyPress?: (key: string) => void;
@@ -60,6 +60,7 @@ const Keyboard: React.FC<IProps> = (Props: IProps) => {
         backgroundColor: theme.backgroundContainer,
         width: `${Props.width}px`,
         height: `${Props.height ? `${Props.height}px` : "auto"}`,
+        paddingRight: "20px",
       }}
       className="rounded-lg p-4 radius-15"
     >
@@ -68,7 +69,7 @@ const Keyboard: React.FC<IProps> = (Props: IProps) => {
           style={{
             display: "flex",
             flexWrap: "wrap",
-            gap: "4px",
+            gap: "6px",
             justifyContent: "center",
           }}
         >
@@ -76,11 +77,18 @@ const Keyboard: React.FC<IProps> = (Props: IProps) => {
             <Box
               onClick={() => handleKeyPress(key)}
               key={index}
-              width={key === "ENTER" ? 70 : 50}
+              width={key === "ENTER" || key === "⌫" ? 70 : 50}
               color={key === "D" ? "#6AAA64" : theme.text}
               defaultColor={theme.boxColor}
               value={key}
               label={key}
+              style={
+                index > 9 && index < 20
+                  ? { left: "24px", position: "relative" }
+                  : index >= 20
+                    ? { right: "15px", position: "relative" }
+                    : {}
+              }
             />
           ))}
         </div>

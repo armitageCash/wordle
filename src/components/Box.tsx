@@ -12,6 +12,7 @@ interface IProps {
   textColor?: string;
   border?: number;
   color: string;
+  style?: React.CSSProperties;
 }
 
 const Box: React.FC<IProps> = (Props: IProps) => {
@@ -20,6 +21,7 @@ const Box: React.FC<IProps> = (Props: IProps) => {
     <div
       onClick={() => Props.onClick(Props.value)}
       style={{
+        ...Props.style,
         width: Props.width ? `${Props.width}px` : "50px",
         height: Props.height ? `${Props.height}px` : "50px",
         borderRadius: "5px",

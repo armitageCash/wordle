@@ -1,5 +1,5 @@
 import React from "react";
-import Container from "../components/Container";
+import Container from "./Container";
 import Grid from "./Grid";
 import Column from "./Column";
 import { Title } from "../components/Typography";
@@ -43,12 +43,16 @@ const Header: React.FC<IProps> = (Props: IProps) => {
                     />
                   }
                 />
-                <Column children={<Title align="center" text="WORDLE" />} />
+                <Column children={<Title align="center" text="WORLDDE" />} />
                 <Column
                   className="text-right"
                   children={
                     <div className="flex">
-                      <IconResult size={25} color={theme.background} />
+                      <IconResult
+                        onClick={Props.showResult}
+                        size={25}
+                        color={theme.background}
+                      />
                       <ToggleSwitch
                         onChange={(value) => {
                           console.log(value);

@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "../components/Box";
-import Container from "../components/Container";
-import Spacing from "../components/Spacing";
+import Container from "../layout/Container";
+import Spacing from "../layout/Spacing";
 import { Title, Parragraph, SubTitle } from "../components/Typography";
 import Column from "../layout/Column";
 import Grid from "../layout/Grid";
@@ -47,6 +47,10 @@ const Instructions: React.FC<IProps> = (Props: IProps) => {
                       color={k === 0 ? "#6AAA64" : "transparent"}
                       label={`${v}`}
                       value={`${v}`}
+                      onClick={function (value: string): void {
+                        console.log(value);
+                        throw new Error("Function not implemented.");
+                      }}
                     />
                   }
                 />
@@ -68,6 +72,10 @@ const Instructions: React.FC<IProps> = (Props: IProps) => {
                       color={k === 2 ? "#CEB02C" : "transparent"}
                       label={`${v}`}
                       value={`${v}`}
+                      onClick={function (value: string): void {
+                        console.log(value);
+                        throw new Error("Function not implemented.");
+                      }}
                     />
                   }
                 />
@@ -90,6 +98,11 @@ const Instructions: React.FC<IProps> = (Props: IProps) => {
                       color={k === 4 ? "#939B9F" : "transparent"}
                       label={`${v}`}
                       value={`${v}`}
+                      onClick={function (value: string): void {
+                        console.log(value);
+
+                        throw new Error("Function not implemented.");
+                      }}
                     />
                   }
                 />
