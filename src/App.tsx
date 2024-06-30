@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { ThemeProvider, useTheme } from "./context/theme";
 import styles from "./styles.module.css";
 import Header from "./layout/Header";
@@ -8,17 +8,75 @@ import Spacing from "./layout/Spacing";
 import Keyboard from "./components/Keyboard";
 import Result from "./views/Result";
 import ModalContent from "./components/Modal";
+import CountdownTimer from "./shared/countDown";
+import GameRepository from "./repository/game";
+import { Game } from "./types";
+import words from "./assets/json/words.json";
 
+const gameRepository = new GameRepository();
 const Content: React.FC = () => {
   const { theme } = useTheme();
+  const [remainingTime, setRemainingTime] = useState<number>(5 * 60);
   const [showInstructions, setShowInstructions] = useState<boolean>(false);
   const [showResult, setShowResult] = useState<boolean>(false);
+  const [word, setWord] = useState<string>("");
+  const countdownTimerRef = useRef<CountdownTimer | null>(null);
+  const [game, setGame] = useState<Game>();
+
+  const format = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  };
+
+  const getWord = () => {
+    const dict = words as [];
+    const index = Math.floor(
+      Math.random() * dict.filter((w: string) => w.length == 5).length,
+    );
+    return dict.filter((word: string) => word.length === 5)[index];
+  };
+
+  const getGame = () => {
+    const g = gameRepository.find();
+    if (g) {
+      setGame(g);
+    }
+
+    if (!g) {
+      setShowInstructions(!showInstructions);
+    }
+  };
+
+  const tick = (time: number) => {
+    setRemainingTime(time);
+  };
+
+  const end = () => {
+    setShowResult(!showResult);
+    console.log("selected", word);
+  };
+
+  useEffect(() => {
+    getGame();
+    countdownTimerRef.current = new CountdownTimer(1, tick, end);
+    if (word) {
+      console.log("Word updated:", word);
+      // Aquí puedes realizar cualquier acción adicional cuando la palabra cambie
+    }
+  }, [word]);
+
+  const startTimer = () => {
+    countdownTimerRef.current?.start();
+  };
+
   return (
     <>
       <div
         className={styles.wrapper}
         style={{ backgroundColor: theme.body, color: theme.text }}
       >
+        <p>{format(remainingTime)}</p>
         <Spacing size={10} />
         <Header
           width={500}
@@ -52,15 +110,31 @@ const Content: React.FC = () => {
               show={true}
               title="Cómo jugar"
               content={
-                <Instructions onPlayButton={() => setShowInstructions(false)} />
-              }
-              buttons={
-                <button
-                  onClick={() => setShowInstructions(false)}
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  !JUGAR¡
-                </button>
+                <Instructions
+                  onPlayButton={() => {
+                    const selectedWord = getWord();
+                    setWord(selectedWord);
+
+                    console.log("word", selectedWord);
+
+                    if (game) {
+                      setShowInstructions(false);
+                      return startTimer();
+                    }
+
+                    const newGame: Game = {
+                      games: 0,
+                      win: 0,
+                      word: selectedWord,
+                      time: new Date().toISOString(),
+                    };
+
+                    gameRepository.create(newGame);
+                    setShowInstructions(!showInstructions);
+                    startTimer();
+                    setGame(game);
+                  }}
+                />
               }
             />
           </div>
@@ -77,7 +151,9 @@ const Content: React.FC = () => {
             <ModalContent
               show={showResult}
               title="Estadísticas"
-              content={<Result onOk={() => setShowResult(!showResult)} />}
+              content={
+                <Result game={game} onOk={() => setShowResult(!showResult)} />
+              }
             />
           </div>
         </div>

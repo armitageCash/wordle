@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "../context/theme";
 import "../index.css";
 import Container from "../layout/Container";
 
@@ -11,9 +10,6 @@ interface IProps {
 }
 
 const ModalContent: React.FC<IProps> = (Props: IProps) => {
-  const { theme } = useTheme();
-  console.log("props", Props);
-  console.log("theme", theme);
   return (
     <>
       {Props.show ? (

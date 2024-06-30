@@ -8,6 +8,7 @@ interface Board {
 }
 
 const Board: React.FC<Board> = (Props: Board) => {
+  console.log("props", Props);
   const { theme } = useTheme();
 
   const size = 5;
@@ -24,6 +25,7 @@ const Board: React.FC<Board> = (Props: Board) => {
           label=""
           value=""
           color="#6AAA64"
+          onClick={() => {}}
         />
       </div>
     );

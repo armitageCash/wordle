@@ -4,9 +4,11 @@ import { Parragraph, SubTitle, Title } from "../components/Typography";
 import Spacing from "../layout/Spacing";
 import Grid from "../layout/Grid";
 import Column from "../layout/Column";
+import { Game } from "../types";
 
 interface IProps {
   onOk: () => void;
+  game?: Game;
 }
 
 const Result: React.FC<IProps> = (Props: IProps) => {
@@ -26,7 +28,11 @@ const Result: React.FC<IProps> = (Props: IProps) => {
                 <Column
                   children={
                     <>
-                      <Title text="8" />
+                      {Props.game ? (
+                        <Title text={Props.game?.games.toString()} />
+                      ) : (
+                        <Title text={"0"} />
+                      )}
                       <Parragraph text={"Jugadas"} />
                     </>
                   }
@@ -34,7 +40,11 @@ const Result: React.FC<IProps> = (Props: IProps) => {
                 <Column
                   children={
                     <>
-                      <Title text="8" />
+                      {Props.game ? (
+                        <Title text={Props.game?.win.toString()} />
+                      ) : (
+                        <Title text={"0"} />
+                      )}
                       <Parragraph text={"Victorias"} />
                     </>
                   }

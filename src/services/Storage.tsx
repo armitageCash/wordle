@@ -1,11 +1,11 @@
 class LocalStorageService {
   save<T>(key: string, value: T): void {
     const jsonValue = JSON.stringify(value);
-    localStorage.setItem(key, jsonValue);
+    window.localStorage.setItem(key, jsonValue);
   }
 
   get<T>(key: string): T | null {
-    const jsonValue = localStorage.get(key);
+    const jsonValue = window.localStorage.getItem(key);
     if (!jsonValue) {
       return null;
     }
@@ -31,10 +31,8 @@ class LocalStorageService {
   }
 
   remoce(key: string): void {
-    localStorage.removeItem(key);
+    window.localStorage.removeItem(key);
   }
 }
 
-const localStorageService = new LocalStorageService();
-
-export default localStorageService;
+export default LocalStorageService;

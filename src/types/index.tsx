@@ -12,3 +12,10 @@ export interface ThemeContextType {
   isDark: boolean;
   toggleTheme: () => void;
 }
+
+export interface Game {
+  win: number;
+  games: number;
+  time: string;
+  word?: string;
+}
