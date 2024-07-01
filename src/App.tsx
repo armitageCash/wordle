@@ -96,6 +96,7 @@ const Content: React.FC = () => {
         />
         <Spacing size={20} />
         <Board
+          onResetGame={() => {}}
           onFailGuess={() => {
             getGame();
             setShowResult(!showResult);
@@ -134,7 +135,7 @@ const Content: React.FC = () => {
           <div
             className="modal-inner"
             style={{
-              backgroundColor: theme.body,
+              backgroundColor: theme.backgroundContainer,
             }}
           >
             <ModalContent
@@ -176,7 +177,7 @@ const Content: React.FC = () => {
           <div
             className="modal-inner"
             style={{
-              backgroundColor: theme.body,
+              backgroundColor: theme.backgroundContainer,
             }}
           >
             <ModalContent

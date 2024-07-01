@@ -14,6 +14,6 @@ export const darkTheme: Theme = {
   text: "#FFF", // Cambiado a blanco sólido
   toggleBorder: "#6B8096",
   background: "#999",
-  backgroundContainer: "#DADCE008",
+  backgroundContainer: "#262B3C",
   boxColor: "#939B9F33",
 };

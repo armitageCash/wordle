@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../context/theme";
-import Matrix from "../classes/Board"; // Asegúrate de que la ruta sea correcta
+import Matrix from "../classes/Board";
 
 interface BoardProps {
   title: string;
   size: string;
   keyPressed: string;
   word: string;
-  onCorrectGuess: () => void; // Nueva prop para manejar la adivinanza correcta
-  onFailGuess: () => void; // Nueva prop para manejar la adivinanza correcta
+  onCorrectGuess: () => void;
+  onFailGuess: () => void;
+  onResetGame: () => void;
 }
 
 interface Component {
@@ -17,7 +18,7 @@ interface Component {
   backgroundColor: string;
 }
 
-const Bos: React.FC<Component & { textColor: string }> = ({
+const Box: React.FC<Component & { textColor: string }> = ({
   letter,
   backgroundColor,
   textColor,
@@ -46,12 +47,12 @@ const Board: React.FC<BoardProps> = ({
   word,
   onCorrectGuess,
   onFailGuess,
+  onResetGame,
 }) => {
   const { theme } = useTheme();
 
-  const [matrix, setMatrix] = useState<Matrix>(
-    () => new Matrix(theme.boxColor, theme.text),
-  );
+  const initialMatrix = new Matrix(theme.boxColor, theme.text);
+  const [matrix, setMatrix] = useState<Matrix>(initialMatrix);
   const [currentRow, setCurrentRow] = useState(0);
   const [currentCol, setCurrentCol] = useState(0);
   const [shouldCheckRow, setShouldCheckRow] = useState(false);
@@ -123,19 +124,31 @@ const Board: React.FC<BoardProps> = ({
 
     setMatrix(newMatrix);
 
+    const restartGame = () => {
+      setMatrix(initialMatrix);
+      setCurrentRow(0);
+      setCurrentCol(0);
+      setShouldCheckRow(false);
+      setGameOver(false);
+      onResetGame();
+    };
+
     if (correctCount === 5) {
       setGameOver(true);
       onCorrectGuess();
+      restartGame();
     } else if (row === 4) {
       setGameOver(true);
       onFailGuess();
+      restartGame();
     }
   };
 
   const renderCell = (row: number, col: number) => {
     const component = matrix.getComponent(row, col);
     return (
-      <Bos
+      <Box
+        key={`${row}-${col}`}
         letter={component.letter}
         backgroundColor={component.backgroundColor}
         textColor={component.color}

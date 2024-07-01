@@ -27,7 +27,6 @@ class Matrix {
 
   setComponent(row: number, col: number, component: Component): void {
     this.matrix[row][col] = component;
-    this.validateRow(row);
   }
 
   editComponent(
@@ -42,30 +41,12 @@ class Matrix {
     }
   }
 
-  private validateRow(row: number): void {
-    if (this.isRowValid(row)) {
-      console.log(`Fila ${row} es válida!`);
-      // Aquí puedes agregar la lógica adicional para manejar una fila válida
-    }
-  }
-
-  private isRowValid(row: number): boolean {
-    const firstComponent = this.matrix[row][0];
-    return this.matrix[row].every(
-      (component) =>
-        component.color === firstComponent.color ||
-        component.letter === firstComponent.letter,
-    );
-  }
-
   moveUp(row: number, col: number): void {
     if (row > 0) {
       [this.matrix[row][col], this.matrix[row - 1][col]] = [
         this.matrix[row - 1][col],
         this.matrix[row][col],
       ];
-      this.validateRow(row);
-      this.validateRow(row - 1);
     }
   }
 
@@ -75,8 +56,6 @@ class Matrix {
         this.matrix[row + 1][col],
         this.matrix[row][col],
       ];
-      this.validateRow(row);
-      this.validateRow(row + 1);
     }
   }
 
@@ -86,7 +65,6 @@ class Matrix {
         this.matrix[row][col - 1],
         this.matrix[row][col],
       ];
-      this.validateRow(row);
     }
   }
 
@@ -96,7 +74,6 @@ class Matrix {
         this.matrix[row][col + 1],
         this.matrix[row][col],
       ];
-      this.validateRow(row);
     }
   }
 
