@@ -22,6 +22,7 @@ const Content: React.FC = () => {
   const [showInstructions, setShowInstructions] = useState<boolean>(false);
   const [showResult, setShowResult] = useState<boolean>(false);
   const [keyPressed, setKeyPressed] = useState<string>("");
+  const [usedLetters, setUsedLetters] = useState<string[]>([]);
   const [word, setWord] = useState<string>("");
   const [game, setGame] = useState<Game>();
 
@@ -51,7 +52,7 @@ const Content: React.FC = () => {
   };
 
   const tick = (time: number) => {
-    setRemainingTime(time);
+    //setRemainingTime(time);
   };
 
   const end = () => {
@@ -72,8 +73,12 @@ const Content: React.FC = () => {
     countdownTimerRef.current?.start();
   };
 
-  // Usar useCallback para memorizar la función onKeyPress
+  const addUsedLetter = (letter: string) => {
+    setUsedLetters([...usedLetters, letter]);
+  };
+
   const handleKeyPress = useCallback((value: string) => {
+    addUsedLetter(value);
     setKeyPressed(value);
   }, []);
 
@@ -107,6 +112,7 @@ const Content: React.FC = () => {
               status: "lose",
             };
 
+            startTimer();
             setGame(g);
             gameRepository.update(g);
           }}
@@ -126,11 +132,13 @@ const Content: React.FC = () => {
           }}
           word={word}
           keyPressed={keyPressed}
-          size="4"
-          title={"Wordle"}
         />
         <Spacing size={44} />
-        <Keyboard usedLetters={["A"]} width={640} onKeyPress={handleKeyPress} />
+        <Keyboard
+          usedLetters={usedLetters}
+          width={640}
+          onKeyPress={handleKeyPress}
+        />
       </div>
       {showInstructions && (
         <div className="backdrop">
@@ -187,7 +195,11 @@ const Content: React.FC = () => {
               show={showResult}
               title="Estadísticas"
               content={
-                <Result game={game} onOk={() => setShowResult(!showResult)} />
+                <Result
+                  game={game}
+                  timer={format(remainingTime)}
+                  onOk={() => setShowResult(!showResult)}
+                />
               }
             />
           </div>

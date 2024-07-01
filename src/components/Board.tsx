@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../context/theme";
-import Matrix from "../classes/Board";
+import Matrix from "../classes/Board"; // Cambiado de Board a Matrix
 
 interface BoardProps {
-  title: string;
-  size: string;
   keyPressed: string;
   word: string;
   onCorrectGuess: () => void;

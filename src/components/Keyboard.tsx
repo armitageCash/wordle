@@ -18,7 +18,7 @@ const Keyboard: React.FC<IProps> = (Props: IProps) => {
   const [keyColors, setKeyColors] = useState<string[]>([]);
 
   useEffect(() => {
-    // Inicializar los colores de las teclas
+    console.log("used", usedLetters);
     const initialKeyColors = keys.map((key) =>
       usedLetters.includes(key) ? "#CCCCCC" : theme.text,
     );
