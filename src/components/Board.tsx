@@ -8,6 +8,7 @@ interface BoardProps {
   onCorrectGuess: () => void;
   onFailGuess: () => void;
   onResetGame: () => void;
+  onBoardAddKey: (value: { [key: string]: string }) => void;
 }
 
 interface Component {
@@ -46,9 +47,12 @@ const Board: React.FC<BoardProps> = ({
   onCorrectGuess,
   onFailGuess,
   onResetGame,
+  onBoardAddKey,
 }) => {
   const { theme } = useTheme();
-
+  const [selectedLetters, setSelectedLetters] = useState<{
+    [key: string]: string;
+  }>({});
   const initialMatrix = new Matrix(theme.boxColor, theme.text);
   const [matrix, setMatrix] = useState<Matrix>(initialMatrix);
   const [currentRow, setCurrentRow] = useState(0);
@@ -86,6 +90,13 @@ const Board: React.FC<BoardProps> = ({
         setCurrentCol(0);
         setCurrentRow(currentRow + 1);
       }
+
+      setSelectedLetters({
+        ...selectedLetters,
+        [`${currentRow},${currentCol}`]: theme.text, // Asigna el color correspondiente
+      });
+
+      onBoardAddKey({ [`${currentRow},${currentCol}`]: theme.text });
     }
   };
 

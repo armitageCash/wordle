@@ -8,7 +8,7 @@ interface IProps {
   onKeyPress?: (key: string) => void;
   width: number;
   height?: number;
-  usedLetters: string[];
+  usedLetters: string[]; // Array que contiene las letras ya utilizadas
 }
 
 const Keyboard: React.FC<IProps> = (Props: IProps) => {
@@ -18,7 +18,7 @@ const Keyboard: React.FC<IProps> = (Props: IProps) => {
   const [keyColors, setKeyColors] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log("used", usedLetters);
+    // Inicializar los colores de las teclas
     const initialKeyColors = keys.map((key) =>
       usedLetters.includes(key) ? "#CCCCCC" : theme.text,
     );

@@ -21,7 +21,7 @@ const Content: React.FC = () => {
   const [showInstructions, setShowInstructions] = useState<boolean>(false);
   const [showResult, setShowResult] = useState<boolean>(false);
   const [keyPressed, setKeyPressed] = useState<string>("");
-  const [usedLetters, setUsedLetters] = useState<string[]>([]);
+  const [usedLetters, setUsedLetters] = useState<{ [key: string]: string }>({});
   const [word, setWord] = useState<string>("");
   const [game, setGame] = useState<Game>();
 
@@ -35,7 +35,10 @@ const Content: React.FC = () => {
     const dict = words as string[];
     const filteredWords = dict.filter((w: string) => w.length === 5);
     const index = Math.floor(Math.random() * filteredWords.length);
-    return filteredWords[index];
+    return filteredWords[index]
+      .normalize("NFD")
+      .replace(/([aeio])\u0301|(u)[\u0301\u0308]/gi, "$1$2")
+      .normalize();
   }, []);
 
   const getGame = useCallback(() => {
@@ -67,11 +70,15 @@ const Content: React.FC = () => {
   }, [remainingTime]);
 
   const end = useCallback(() => {
-    setShowResult(true);
     if (timerRef.current) clearInterval(timerRef.current);
     setRemainingTime(5 * 60); // Reset timer
+    setShowResult(false); // Close the result modal
     getGame();
-  }, [getGame]);
+    const newWord = getWord();
+    setWord(newWord);
+    setUsedLetters({});
+    setKeyPressed("");
+  }, [getGame, getWord]);
 
   useEffect(() => {
     getGame();
@@ -82,26 +89,17 @@ const Content: React.FC = () => {
 
   useEffect(() => {
     if (word) {
-      console.log("Word updated:", word);
       startTimer();
     }
   }, [word, startTimer]);
 
-  const addUsedLetter = useCallback((letter: string) => {
-    setUsedLetters((prev) => [...prev, letter]);
+  const handleKeyPress = useCallback((value: string) => {
+    setKeyPressed(value);
   }, []);
-
-  const handleKeyPress = useCallback(
-    (value: string) => {
-      addUsedLetter(value);
-      setKeyPressed(value);
-    },
-    [addUsedLetter],
-  );
 
   const handleGameEnd = useCallback(
     (status: "win" | "lose") => {
-      getGame();
+      if (timerRef.current) clearInterval(timerRef.current);
       setShowResult(true);
       const g: Game = {
         games: (game?.games || 0) + 1,
@@ -112,9 +110,8 @@ const Content: React.FC = () => {
 
       setGame(g);
       gameRepository.update(g);
-      if (status === "lose") startTimer();
     },
-    [game, word, getGame, startTimer],
+    [game, word],
   );
 
   return (
@@ -132,6 +129,10 @@ const Content: React.FC = () => {
         />
         <Spacing size={20} />
         <Board
+          onBoardAddKey={(value) => {
+            setUsedLetters(value);
+            console.log("key added", value);
+          }}
           onResetGame={() => {}}
           onFailGuess={() => handleGameEnd("lose")}
           onCorrectGuess={() => handleGameEnd("win")}
@@ -139,11 +140,7 @@ const Content: React.FC = () => {
           keyPressed={keyPressed}
         />
         <Spacing size={44} />
-        <Keyboard
-          usedLetters={usedLetters}
-          width={640}
-          onKeyPress={handleKeyPress}
-        />
+        <Keyboard usedLetters={[]} width={640} onKeyPress={handleKeyPress} />
       </div>
       {showInstructions && (
         <div className="backdrop">
@@ -163,7 +160,7 @@ const Content: React.FC = () => {
                     setWord(selectedWord);
 
                     const newGame: Game = {
-                      games: game ? game.games + 1 : 1,
+                      games: game ? game.games + 1 : 0,
                       win: game ? game.win : 0,
                       word: selectedWord,
                       time: new Date().toISOString(),
@@ -173,6 +170,8 @@ const Content: React.FC = () => {
                     gameRepository.create(newGame);
                     setGame(newGame);
                     setShowInstructions(false);
+                    setRemainingTime(5 * 60);
+                    startTimer();
                   }}
                 />
               }
@@ -195,7 +194,14 @@ const Content: React.FC = () => {
                 <Result
                   game={game}
                   timer={format(remainingTime)}
-                  onOk={() => setShowResult(false)}
+                  onOk={() => {
+                    setShowResult(false);
+                    const newWord = getWord();
+                    setWord(newWord);
+                    setKeyPressed("");
+                    setRemainingTime(5 * 60);
+                    startTimer();
+                  }}
                 />
               }
             />
