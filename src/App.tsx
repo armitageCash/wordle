@@ -52,7 +52,7 @@ const Content: React.FC = () => {
   };
 
   const tick = (time: number) => {
-    //setRemainingTime(time);
+    setRemainingTime(time);
   };
 
   const end = () => {

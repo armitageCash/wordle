@@ -23,7 +23,8 @@ const Instructions: React.FC<IProps> = (Props: IProps) => {
           <>
             <Parragraph
               align="left"
-              text="Adivina la palabra oculta en cinco intentos."
+              text=""
+              children={<p>Adivina la palabra oculta en cinco intentos.</p>}
             />
             <Parragraph
               align="left"
@@ -64,7 +65,13 @@ const Instructions: React.FC<IProps> = (Props: IProps) => {
             <Spacing size={8} />
             <Parragraph
               align="left"
-              text="La letra G está en la palabra y en la posición correcta."
+              children={
+                <p>
+                  La letra <span style={{ fontWeight: "bold" }}>G</span> está en
+                  la palabra y en la posición correcta.
+                </p>
+              }
+              text=""
             />
             <Grid
               className="flex"
@@ -94,8 +101,14 @@ const Instructions: React.FC<IProps> = (Props: IProps) => {
             <Spacing size={8} />
             <Parragraph
               align="left"
-              text={`La letra C está en la palabra pero en la posición
-                      incorrecta.`}
+              children={
+                <p>
+                  La letra <span style={{ fontWeight: "bold" }}>C</span> está en
+                  la palabra pero en la posición incorrecta. La letra está en la
+                  palabra y en la posición correcta.
+                </p>
+              }
+              text={""}
             />
             <Grid
               className="flex"
@@ -124,10 +137,25 @@ const Instructions: React.FC<IProps> = (Props: IProps) => {
               ))}
             />
             <Spacing size={8} />
-            <Parragraph align="left" text="La letra O no está en la palabra." />
             <Parragraph
               align="left"
-              text="Puede haber letras repetidas. Las pistas son \n independientes para cada letra."
+              children={
+                <p>
+                  La letra <span style={{ fontWeight: "bold" }}>O</span> no está
+                  en la palabra.
+                </p>
+              }
+              text={""}
+            />
+            <Parragraph
+              align="left"
+              text=""
+              children={
+                <p>
+                  Puede haber letras repetidas. Las pistas son
+                  <br /> independientes para cada letra.
+                </p>
+              }
             />
             <Parragraph
               align="center"
