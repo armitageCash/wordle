@@ -97,10 +97,29 @@ const Content: React.FC = () => {
         <Spacing size={20} />
         <Board
           onFailGuess={() => {
-            setShowResult(true);
+            getGame();
+            setShowResult(!showResult);
+            const g: Game = {
+              games: (game?.games || 0) + 1,
+              word: word,
+              win: game?.win || 0,
+            };
+
+            setGame(g);
+            gameRepository.update(g);
           }}
           onCorrectGuess={() => {
-            setShowResult(true);
+            getGame();
+            setShowResult(!showResult);
+            const g: Game = {
+              games: (game?.games || 0) + 1,
+              word: word,
+              win: (game?.win || 0) + 1,
+            };
+
+            setGame(g);
+
+            gameRepository.update(g);
           }}
           word={word}
           keyPressed={keyPressed}

@@ -16,6 +16,6 @@ export interface ThemeContextType {
 export interface Game {
   win: number;
   games: number;
-  time: string;
+  time?: string;
   word?: string;
 }
