@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import light from "../assets/light.png";
+import dark from "../assets/dark.png";
 
 interface ToggleSwitchProps {
   initialState?: boolean;
@@ -18,42 +20,21 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
 
   return (
     <div style={{ width: 50 }}>
-      <svg onClick={toggleSwitch} width="60" height="20" viewBox="0 0 200 100">
-        <defs>
-          <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop
-              offset="0%"
-              style={{ stopColor: "#7fecad", stopOpacity: 1 }}
-            />
-            <stop
-              offset="100%"
-              style={{ stopColor: "#9bf8f4", stopOpacity: 1 }}
-            />
-          </linearGradient>
-        </defs>
-
-        <rect
-          width="200"
-          height="100"
-          rx="50"
-          ry="50"
-          fill={isOn ? "#ccc" : "#333"}
+      {isOn ? (
+        <img
+          onClick={toggleSwitch}
+          src={light}
+          alt=""
+          style={{ marginLeft: "10px" }}
         />
-        <circle cx={isOn ? "150" : "50"} cy="50" r="40" fill="#fff" />
-
-        <g style={{ opacity: isOn ? 1 : 0, transition: "opacity 0.3s" }}>
-          <rect
-            width="200"
-            height="100"
-            rx="50"
-            ry="50"
-            fill="url(#skyGradient)"
-          />
-          <circle cx="150" cy="50" r="35" fill="#ffa500" />
-          <circle cx="40" cy="30" r="10" fill="#fff" opacity="0.8" />
-          <circle cx="80" cy="20" r="8" fill="#fff" opacity="0.6" />
-        </g>
-      </svg>
+      ) : (
+        <img
+          onClick={toggleSwitch}
+          src={dark}
+          alt=""
+          style={{ marginLeft: "10px" }}
+        />
+      )}
     </div>
   );
 };
