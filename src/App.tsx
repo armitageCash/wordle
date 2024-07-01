@@ -78,6 +78,7 @@ const Content: React.FC = () => {
     setShowResult(false); // Close the result modal
     getGame();
     const newWord = getWord();
+    console.log("new keyword", newWord);
     setWord(newWord);
     setUsedLetters({});
     setKeyPressed("");
