@@ -54,7 +54,9 @@ const Result: React.FC<IProps> = (Props: IProps) => {
           />
         }
       />
-
+      {Props.game && Props.game?.status === "lose" ? (
+        <Parragraph text={"La palabra era:"} />
+      ) : null}
       <Parragraph text={"SIGUIENTE PALABRA"} />
       <span style={{ fontWeight: "bold" }}>
         <SubTitle text={"04:10"} align="center" />

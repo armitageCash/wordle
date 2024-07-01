@@ -10,7 +10,7 @@ export const lightTheme: Theme = {
 };
 
 export const darkTheme: Theme = {
-  body: "#262B3C",
+  body: "#2a2f41",
   text: "#FFF", // Cambiado a blanco sólido
   toggleBorder: "#6B8096",
   background: "#999",

@@ -19,28 +19,44 @@ interface IProps {
   style?: React.CSSProperties;
 }
 
-const Box: React.FC<IProps> = (Props: IProps) => {
+const Box: React.FC<IProps> = ({
+  label,
+  onClick,
+  value,
+  width,
+  height,
+  defaultColor,
+  disabled,
+  textColor,
+  border,
+  color,
+  style,
+}: IProps) => {
   const { theme } = useTheme();
 
   return (
     <div
-      onClick={() => Props.onClick(Props.value)}
+      onClick={() => onClick(value)}
       style={{
-        ...Props.style,
-        width: Props.width ? `${Props.width}px` : "50px",
-        height: Props.height ? `${Props.height}px` : "50px",
+        ...style,
+        width: width ? `${width}px` : "50px",
+        height: height ? `${height}px` : "50px",
         borderRadius: "5px",
-        border: `${Props.border ? `${Props.border}px solid` : "0"}`,
+        border: `${border ? `${border}px solid` : "0"}`,
         boxSizing: "border-box",
         display: "flex",
         alignItems: "center",
         fontWeight: 800,
         justifyContent: "center",
-        backgroundColor: Props.defaultColor ? Props.defaultColor : Props.color,
+        backgroundColor: disabled
+          ? "#CCCCCC"
+          : defaultColor
+            ? defaultColor
+            : color,
         borderColor: theme.background,
       }}
     >
-      <span style={{ color: Props.textColor }}>{Props.label}</span>
+      <span style={{ color: textColor ? textColor : theme.text }}>{label}</span>
     </div>
   );
 };

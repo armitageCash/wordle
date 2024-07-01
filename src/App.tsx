@@ -104,6 +104,7 @@ const Content: React.FC = () => {
               games: (game?.games || 0) + 1,
               word: word,
               win: game?.win || 0,
+              status: "lose",
             };
 
             setGame(g);
@@ -116,6 +117,7 @@ const Content: React.FC = () => {
               games: (game?.games || 0) + 1,
               word: word,
               win: (game?.win || 0) + 1,
+              status: "win",
             };
 
             setGame(g);
@@ -128,7 +130,7 @@ const Content: React.FC = () => {
           title={"Wordle"}
         />
         <Spacing size={44} />
-        <Keyboard width={640} onKeyPress={handleKeyPress} />
+        <Keyboard usedLetters={["A"]} width={640} onKeyPress={handleKeyPress} />
       </div>
       {showInstructions && (
         <div className="backdrop">
@@ -159,6 +161,7 @@ const Content: React.FC = () => {
                       win: 0,
                       word: selectedWord,
                       time: new Date().toISOString(),
+                      status: "",
                     };
 
                     gameRepository.create(newGame);

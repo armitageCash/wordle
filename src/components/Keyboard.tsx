@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Container from "../layout/Container";
 import { useTheme } from "../context/theme";
 import Box from "./Box";
@@ -8,10 +8,22 @@ interface IProps {
   onKeyPress?: (key: string) => void;
   width: number;
   height?: number;
+  usedLetters: string[];
 }
 
 const Keyboard: React.FC<IProps> = (Props: IProps) => {
   const { theme } = useTheme();
+  const { width, height, onKeyPress, usedLetters } = Props;
+
+  const [keyColors, setKeyColors] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Inicializar los colores de las teclas
+    const initialKeyColors = keys.map((key) =>
+      usedLetters.includes(key) ? "#CCCCCC" : theme.text,
+    );
+    setKeyColors(initialKeyColors);
+  }, [usedLetters, theme.text]);
 
   const keys = [
     "Q",
@@ -47,20 +59,17 @@ const Keyboard: React.FC<IProps> = (Props: IProps) => {
 
   const handleKeyPress = useCallback(
     (key: string) => {
-      if (Props.onKeyPress) {
+      if (onKeyPress) {
         if (key === "ENTER") {
-          // Manejar la acción de ENTER
           console.log("Acción de ENTER");
         } else if (key === "⌫") {
-          // Manejar la acción de borrar
           console.log("Acción de borrar");
         } else {
-          // Para todas las demás teclas, enviar el carácter
-          Props.onKeyPress(key);
+          onKeyPress(key);
         }
       }
     },
-    [Props.onKeyPress],
+    [onKeyPress],
   );
 
   const handlePhysicalKeyPress = useCallback(
@@ -80,12 +89,20 @@ const Keyboard: React.FC<IProps> = (Props: IProps) => {
     };
   }, [handlePhysicalKeyPress]);
 
+  const renderKeyColor = (key: string) => {
+    const index = keys.indexOf(key);
+    if (index !== -1) {
+      return keyColors[index];
+    }
+    return theme.text;
+  };
+
   return (
     <div
       style={{
         backgroundColor: theme.backgroundContainer,
-        width: `${Props.width}px`,
-        height: `${Props.height ? `${Props.height}px` : "auto"}`,
+        width: `${width}px`,
+        height: `${height ? `${height}px` : "auto"}`,
         paddingRight: "20px",
       }}
       className="rounded-lg p-4 radius-15"
@@ -107,7 +124,7 @@ const Keyboard: React.FC<IProps> = (Props: IProps) => {
               onClick={() => handleKeyPress(key)}
               key={index}
               width={key === "ENTER" || key === "⌫" ? 70 : 50}
-              color={key === "D" ? "#6AAA64" : theme.text}
+              color={renderKeyColor(key)}
               defaultColor={theme.boxColor}
               value={key}
               label={key}
