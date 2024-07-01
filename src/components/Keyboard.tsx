@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import Container from "../layout/Container";
 import { useTheme } from "../context/theme";
 import Box from "./Box";
@@ -48,11 +48,37 @@ const Keyboard: React.FC<IProps> = (Props: IProps) => {
   const handleKeyPress = useCallback(
     (key: string) => {
       if (Props.onKeyPress) {
-        Props.onKeyPress(key);
+        if (key === "ENTER") {
+          // Manejar la acción de ENTER
+          console.log("Acción de ENTER");
+        } else if (key === "⌫") {
+          // Manejar la acción de borrar
+          console.log("Acción de borrar");
+        } else {
+          // Para todas las demás teclas, enviar el carácter
+          Props.onKeyPress(key);
+        }
       }
     },
     [Props.onKeyPress],
   );
+
+  const handlePhysicalKeyPress = useCallback(
+    (event: KeyboardEvent) => {
+      const key = event.key.toUpperCase();
+      if (keys.includes(key) && key !== "ENTER" && key !== "BACKSPACE") {
+        handleKeyPress(key);
+      }
+    },
+    [handleKeyPress, keys],
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handlePhysicalKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handlePhysicalKeyPress);
+    };
+  }, [handlePhysicalKeyPress]);
 
   return (
     <div
@@ -75,6 +101,9 @@ const Keyboard: React.FC<IProps> = (Props: IProps) => {
         >
           {keys.map((key, index) => (
             <Box
+              col={0}
+              row={0}
+              word=""
               onClick={() => handleKeyPress(key)}
               key={index}
               width={key === "ENTER" || key === "⌫" ? 70 : 50}
@@ -82,13 +111,7 @@ const Keyboard: React.FC<IProps> = (Props: IProps) => {
               defaultColor={theme.boxColor}
               value={key}
               label={key}
-              style={
-                index > 9 && index < 20
-                  ? { left: "24px", position: "relative" }
-                  : index >= 20
-                    ? { right: "15px", position: "relative" }
-                    : {}
-              }
+              style={{}}
             />
           ))}
         </div>

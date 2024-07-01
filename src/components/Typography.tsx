@@ -26,6 +26,7 @@ const Parragraph: React.FC<IProps> = (Props: IProps) => {
 };
 interface IProps {
   text: string;
+  style?: React.CSSProperties;
   className?: string;
 }
 
@@ -35,7 +36,7 @@ const Title: React.FC<IProps> = (Props: IProps) => {
   return (
     <div className={Props.className}>
       <h1
-        style={{ color: theme.text }}
+        style={{ ...Props.style, color: theme.text }}
         className={`${isDark ? "text-2xl font-bold" : "text-2xl font-bold"}
            ${Props.align === "left" && "text-left"}
           ${Props.align === "center" && "text-center"}

@@ -54,6 +54,7 @@ const Result: React.FC<IProps> = (Props: IProps) => {
           />
         }
       />
+
       <Parragraph text={"SIGUIENTE PALABRA"} />
       <span style={{ fontWeight: "bold" }}>
         <SubTitle text={"04:10"} align="center" />

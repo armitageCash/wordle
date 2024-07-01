@@ -43,7 +43,15 @@ const Header: React.FC<IProps> = (Props: IProps) => {
                     />
                   }
                 />
-                <Column children={<Title align="center" text="WORLDDE" />} />
+                <Column
+                  children={
+                    <Title
+                      style={{ position: "relative", marginRight: "-20px" }}
+                      align="center"
+                      text="WORLDDE"
+                    />
+                  }
+                />
                 <Column
                   className="text-right"
                   children={

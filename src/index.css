@@ -33,6 +33,7 @@
   width: 100%;
   justify-content: space-between;
 }
+
 .modal-wrapper {
   position: absolute;
   width: 100%;
@@ -40,6 +41,7 @@
   overflow: hidden;
   z-index: 999;
   background-color: gray;
+  margin: "4px";
 }
 
 .backdrop {

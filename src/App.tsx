@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { ThemeProvider, useTheme } from "./context/theme";
 import styles from "./styles.module.css";
 import Header from "./layout/Header";
@@ -14,13 +14,15 @@ import { Game } from "./types";
 import words from "./assets/json/words.json";
 
 const gameRepository = new GameRepository();
+
 const Content: React.FC = () => {
   const { theme } = useTheme();
   const [remainingTime, setRemainingTime] = useState<number>(5 * 60);
+  const countdownTimerRef = useRef<CountdownTimer | null>(null);
   const [showInstructions, setShowInstructions] = useState<boolean>(false);
   const [showResult, setShowResult] = useState<boolean>(false);
+  const [keyPressed, setKeyPressed] = useState<string>("");
   const [word, setWord] = useState<string>("");
-  const countdownTimerRef = useRef<CountdownTimer | null>(null);
   const [game, setGame] = useState<Game>();
 
   const format = (time: number) => {
@@ -70,13 +72,17 @@ const Content: React.FC = () => {
     countdownTimerRef.current?.start();
   };
 
+  // Usar useCallback para memorizar la función onKeyPress
+  const handleKeyPress = useCallback((value: string) => {
+    setKeyPressed(value);
+  }, []);
+
   return (
     <>
       <div
         className={styles.wrapper}
         style={{ backgroundColor: theme.body, color: theme.text }}
       >
-        <p>{format(remainingTime)}</p>
         <Spacing size={10} />
         <Header
           width={500}
@@ -89,14 +95,20 @@ const Content: React.FC = () => {
           }}
         />
         <Spacing size={20} />
-        <Board size="4" title={"aa"} />
-        <Spacing size={44} />
-        <Keyboard
-          width={640}
-          onKeyPress={(value) => {
-            console.log("Preset key", value);
+        <Board
+          onFailGuess={() => {
+            setShowResult(true);
           }}
+          onCorrectGuess={() => {
+            setShowResult(true);
+          }}
+          word={word}
+          keyPressed={keyPressed}
+          size="4"
+          title={"Wordle"}
         />
+        <Spacing size={44} />
+        <Keyboard width={640} onKeyPress={handleKeyPress} />
       </div>
       {showInstructions && (
         <div className="backdrop">

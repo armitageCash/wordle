@@ -9,7 +9,7 @@ interface GridProps {
 const Grid: React.FC<GridProps> = ({ children, className, size }) => {
   return (
     <div
-      className={`${className ? className : ""} grid grid grid-cols-${size ? size : "5"} gap-4`}
+      className={`${className ? className : ""} grid grid-cols-${size ? size : "5"} gap-4`}
     >
       {children}
     </div>

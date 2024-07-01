@@ -5,6 +5,9 @@ interface IProps {
   label: string;
   onClick: (value: string) => void;
   value: string;
+  word: string;
+  row: number;
+  col: number;
   width?: number;
   height?: number;
   defaultColor?: string;
@@ -12,11 +15,13 @@ interface IProps {
   textColor?: string;
   border?: number;
   color: string;
+  onKeyPressed?: (key: string) => void;
   style?: React.CSSProperties;
 }
 
 const Box: React.FC<IProps> = (Props: IProps) => {
   const { theme } = useTheme();
+
   return (
     <div
       onClick={() => Props.onClick(Props.value)}

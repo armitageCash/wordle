@@ -37,11 +37,16 @@ const Instructions: React.FC<IProps> = (Props: IProps) => {
             <SubTitle align="left" text={"Ejemplos"} />
             <Spacing size={8} />
             <Grid
+              className="flex"
+              size={5}
               children={Array.from(["G", "A", "T", "O", "S"]).map((v, k) => (
                 <Column
                   key={k as number}
                   children={
                     <Box
+                      word=""
+                      row={0}
+                      col={0}
                       border={1}
                       textColor={theme.text}
                       color={k === 0 ? "#6AAA64" : "transparent"}
@@ -62,11 +67,16 @@ const Instructions: React.FC<IProps> = (Props: IProps) => {
               text="La letra G está en la palabra y en la posición correcta."
             />
             <Grid
+              className="flex"
+              size={5}
               children={Array.from(["V", "O", "C", "A", "L"]).map((v, k) => (
                 <Column
                   key={k as number}
                   children={
                     <Box
+                      col={0}
+                      row={0}
+                      word=""
                       border={1}
                       textColor={theme.text}
                       color={k === 2 ? "#CEB02C" : "transparent"}
@@ -88,11 +98,16 @@ const Instructions: React.FC<IProps> = (Props: IProps) => {
                       incorrecta.`}
             />
             <Grid
+              className="flex"
+              size={5}
               children={Array.from(["C", "A", "N", "T", "O"]).map((v, k) => (
                 <Column
                   key={k as number}
                   children={
                     <Box
+                      col={0}
+                      row={0}
+                      word=""
                       border={1}
                       textColor={theme.text}
                       color={k === 4 ? "#939B9F" : "transparent"}
