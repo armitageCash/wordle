@@ -8,7 +8,7 @@ interface BoardProps {
   onCorrectGuess: () => void;
   onFailGuess: () => void;
   onResetGame: () => void;
-  onBoardAddKey: (value: { [key: string]: string }) => void;
+  OnKeyAdd: (values: { [key: string]: string }) => void;
 }
 
 interface Component {
@@ -47,7 +47,7 @@ const Board: React.FC<BoardProps> = ({
   onCorrectGuess,
   onFailGuess,
   onResetGame,
-  onBoardAddKey,
+  OnKeyAdd,
 }) => {
   const { theme } = useTheme();
   const [selectedLetters, setSelectedLetters] = useState<{
@@ -73,6 +73,25 @@ const Board: React.FC<BoardProps> = ({
     }
   }, [shouldCheckRow]);
 
+  const evaluateKey = (letter: string, row: number, col: number) => {
+    const secretWord = word.toUpperCase();
+    let backgroundColor = theme.boxColor;
+    let color = theme.text;
+
+    if (letter === secretWord[col]) {
+      backgroundColor = "#66A060";
+      color = "white";
+    } else if (secretWord.includes(letter)) {
+      backgroundColor = "#CEB02C";
+      color = "black";
+    } else {
+      backgroundColor = "#939B9F";
+      color = "white";
+    }
+
+    return { [`${row},${col}`]: backgroundColor };
+  };
+
   const addLetterToMatrix = (letter: string) => {
     if (currentRow < 5 && currentCol < 5) {
       const newMatrix = matrix.clone();
@@ -93,10 +112,11 @@ const Board: React.FC<BoardProps> = ({
 
       setSelectedLetters({
         ...selectedLetters,
-        [`${currentRow},${currentCol}`]: theme.text, // Asigna el color correspondiente
+        [`${currentRow},${currentCol}`]: theme.text,
       });
 
-      onBoardAddKey({ [`${currentRow},${currentCol}`]: theme.text });
+      const keyData = evaluateKey(letter, currentRow, currentCol);
+      OnKeyAdd({ ...keyData, letter });
     }
   };
 
