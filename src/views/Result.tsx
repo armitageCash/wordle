@@ -66,7 +66,7 @@ const Result: React.FC<IProps> = (Props: IProps) => {
         />
       ) : null}
       <Parragraph text={"SIGUIENTE PALABRA"} />
-      {Props.timer && Props.game?.status === "lose" ? (
+      {Props.timer ? (
         <span style={{ fontWeight: "bold" }}>
           <SubTitle text={Props.timer} align="center" />
         </span>
