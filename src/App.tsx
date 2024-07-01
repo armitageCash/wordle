@@ -11,6 +11,7 @@ import ModalContent from "./components/Modal";
 import GameRepository from "./repository/game";
 import { Game } from "./types";
 import words from "./assets/json/words.json";
+import Countdown from "./components/Countdown";
 
 const gameRepository = new GameRepository();
 
@@ -22,6 +23,7 @@ const Content: React.FC = () => {
   const [showResult, setShowResult] = useState<boolean>(false);
   const [keyPressed, setKeyPressed] = useState<string>("");
   const [usedLetters, setUsedLetters] = useState<{ [key: string]: string }>({});
+  const [keyUsed, setkeyUsed] = useState<{ [key: string]: string }>();
   const [word, setWord] = useState<string>("");
   const [game, setGame] = useState<Game>();
 
@@ -45,6 +47,7 @@ const Content: React.FC = () => {
     const g = gameRepository.find();
     if (g) {
       setGame(g);
+      startTimer();
     } else {
       setShowInstructions(true);
     }
@@ -121,6 +124,7 @@ const Content: React.FC = () => {
         style={{ backgroundColor: theme.body, color: theme.text }}
       >
         <Spacing size={10} />
+        <Countdown time={remainingTime} format={format} />
         <Header
           width={500}
           children={<></>}
@@ -129,9 +133,8 @@ const Content: React.FC = () => {
         />
         <Spacing size={20} />
         <Board
-          onBoardAddKey={(value) => {
-            setUsedLetters(value);
-            console.log("key added", value);
+          OnKeyAdd={(v) => {
+            setkeyUsed(v);
           }}
           onResetGame={() => {}}
           onFailGuess={() => handleGameEnd("lose")}
@@ -140,7 +143,12 @@ const Content: React.FC = () => {
           keyPressed={keyPressed}
         />
         <Spacing size={44} />
-        <Keyboard usedLetters={[]} width={640} onKeyPress={handleKeyPress} />
+        <Keyboard
+          keyUsed={keyUsed}
+          usedLetters={[]}
+          width={640}
+          onKeyPress={handleKeyPress}
+        />
       </div>
       {showInstructions && (
         <div className="backdrop">
@@ -196,11 +204,9 @@ const Content: React.FC = () => {
                   timer={format(remainingTime)}
                   onOk={() => {
                     setShowResult(false);
-                    const newWord = getWord();
-                    setWord(newWord);
-                    setKeyPressed("");
-                    setRemainingTime(5 * 60);
-                    startTimer();
+                    if (game?.win) {
+                      startTimer();
+                    }
                   }}
                 />
               }

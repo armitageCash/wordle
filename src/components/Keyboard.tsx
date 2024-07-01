@@ -8,7 +8,8 @@ interface IProps {
   onKeyPress?: (key: string) => void;
   width: number;
   height?: number;
-  usedLetters: string[]; // Array que contiene las letras ya utilizadas
+  usedLetters: string[];
+  keyUsed?: { [key: string]: string }; // Array que contiene las letras ya utilizadas
 }
 
 const Keyboard: React.FC<IProps> = (Props: IProps) => {
@@ -89,14 +90,6 @@ const Keyboard: React.FC<IProps> = (Props: IProps) => {
     };
   }, [handlePhysicalKeyPress]);
 
-  const renderKeyColor = (key: string) => {
-    const index = keys.indexOf(key);
-    if (index !== -1) {
-      return keyColors[index];
-    }
-    return theme.text;
-  };
-
   return (
     <div
       style={{
@@ -124,11 +117,21 @@ const Keyboard: React.FC<IProps> = (Props: IProps) => {
               onClick={() => handleKeyPress(key)}
               key={index}
               width={key === "ENTER" || key === "⌫" ? 70 : 50}
-              color={renderKeyColor(key)}
-              defaultColor={theme.boxColor}
+              color={theme.text}
+              defaultColor={
+                Props.keyUsed && Props.keyUsed.letter === key
+                  ? Props.keyUsed[Object.keys(Props.keyUsed)[0]]
+                  : theme.boxColor
+              }
               value={key}
               label={key}
-              style={{}}
+              style={
+                index > 9 && index < 20
+                  ? { left: "24px", position: "relative" }
+                  : index >= 20
+                    ? { right: "15px", position: "relative" }
+                    : {}
+              }
             />
           ))}
         </div>
