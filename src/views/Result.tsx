@@ -9,6 +9,7 @@ import { Game } from "../types";
 interface IProps {
   onOk: () => void;
   game?: Game;
+  timer?: string;
 }
 
 const Result: React.FC<IProps> = (Props: IProps) => {
@@ -54,11 +55,22 @@ const Result: React.FC<IProps> = (Props: IProps) => {
           />
         }
       />
-
+      {Props.game && Props.game?.status === "lose" ? (
+        <Parragraph
+          children={
+            <span style={{ fontSize: "14px", fontWeight: "bold" }}>
+              {Props.game.word?.toUpperCase() ?? ""}
+            </span>
+          }
+          text={`La palabra era: `}
+        />
+      ) : null}
       <Parragraph text={"SIGUIENTE PALABRA"} />
-      <span style={{ fontWeight: "bold" }}>
-        <SubTitle text={"04:10"} align="center" />
-      </span>
+      {Props.timer ? (
+        <span style={{ fontWeight: "bold" }}>
+          <SubTitle text={Props.timer} align="center" />
+        </span>
+      ) : null}
       <Spacing size={8} />
       <button
         onClick={Props.onOk}

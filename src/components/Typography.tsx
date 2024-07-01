@@ -4,6 +4,7 @@ import { useTheme } from "../context/theme";
 interface IProps {
   text: string;
   align?: string;
+  children?: React.ReactNode;
 }
 
 const Parragraph: React.FC<IProps> = (Props: IProps) => {
@@ -20,6 +21,7 @@ const Parragraph: React.FC<IProps> = (Props: IProps) => {
         `}
       >
         {Props.text}
+        {Props.children ? Props.children : null}
       </p>
     </div>
   );

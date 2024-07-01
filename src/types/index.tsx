@@ -18,4 +18,5 @@ export interface Game {
   games: number;
   time?: string;
   word?: string;
+  status?: string;
 }
